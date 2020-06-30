@@ -5,7 +5,9 @@ import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 //(collection = "user") utilizando sem esta anotação o Mongo assume o nome user minunsculo 
-@Document(collection = "user") //para indicar que esta classe corresponde a uma coleção do MongoDB utilizase a @Document
+
+// para indicar que esta classe corresponde a uma coleção do MongoDB utilizase a
+@Document(collection = "user") // @Document
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -54,9 +56,7 @@ public class User implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -69,20 +69,10 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
