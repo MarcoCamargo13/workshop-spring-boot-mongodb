@@ -57,4 +57,10 @@ public class UserResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//esta linha pega o novo objeto que foi inserido
 		return ResponseEntity.created(uri).build();//create retorno o codigo de resposta http 201 , quando é criado um novo recurso
 	}
+	
+	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) { //para que este endpoint aceite o objDTO tem que usar RequestBody
+		service.delete(id);
+		return ResponseEntity.noContent().build();//create retorno o codigo de resposta http 201 , quando é criado um novo recurso
+	}
 }

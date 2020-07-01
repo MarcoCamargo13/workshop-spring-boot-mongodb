@@ -11,12 +11,12 @@ import com.educandoweb.workshopmongo.dto.UserDTO;
 import com.educandoweb.workshopmongo.repository.UserRepository;
 import com.educandoweb.workshopmongo.services.exception.ObjectNotFoundException;
 
- // para falar para o Spring que esta classe será um serviço e sera enjetada em
-@Service			// outras classe
+// para falar para o Spring que esta classe será um serviço e sera enjetada em
+@Service // outras classe
 public class UserService {// classe responsavel para trabalhar com ususario
 
-	 // instanciar automaticamento, com isso o Spring vai procurar o objeto e fazer
-	@Autowired			// tudo automatico
+	// instanciar automaticamento, com isso o Spring vai procurar o objeto e fazer
+	@Autowired // tudo automatico
 	private UserRepository repo;// instanciar um objeto userRepository //injeção de dependencia
 
 	public List<User> findAll() {// reponsavel por retornar todos os ususario do BD
@@ -24,24 +24,30 @@ public class UserService {// classe responsavel para trabalhar com ususario
 	}
 
 	public User findById(String id) {
-	/*	User user = repo.findById(id);
+		/*
+		 * User user = repo.findById(id);
+		 * 
+		 * if (user == null) { throw new ObjectNotFoundException("Object not found!!");
+		 * }
+		 */
 
-		if (user == null) {
-			throw new ObjectNotFoundException("Object not found!!");
-		}*/
-		
 		Optional<User> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 
 	}
-	
+
 	public User insert(User obj) {
 		return repo.insert(obj);
 	}
-	
+
+	public void delete(String id) {
+		findById(id);// primeiro verica se o objeto existe e depois deleta
+		repo.deleteById(id);
+	}
+
 	public User fromDTO(UserDTO objDTO) {
 		return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
-		
+
 	}
 
 }

@@ -18,7 +18,7 @@ public class Instantiation implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		userRepository.deleteAll(); // para deletar todos os registros de ususario do bD
+		//userRepository.deleteAll(); // para deletar todos os registros de ususario do bD
 
 		// usuario para quando inicalizarmos a plicação os usuarios serão carregados no
 		// BD
