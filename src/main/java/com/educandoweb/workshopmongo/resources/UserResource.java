@@ -28,8 +28,8 @@ public class UserResource {
 
 	// @RequestMapping(method = RequestMethod.GET) // metodo que vai ser um endpoint
 	// do user
-	//@GetMapping
-	@RequestMapping(method=RequestMethod.GET)
+	// @GetMapping
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>> findAll() { // criar um metodo que carrega uma lista
 		// ResponseEntity<List<User> encapsular toda uma estrutura necessaria para
 		// resposta http
@@ -41,26 +41,46 @@ public class UserResource {
 		return ResponseEntity.ok().body(listDto);// instancia o ResponseEntity com o codigo de resposta
 	}
 
-	@RequestMapping(value = "/{id}", method=RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> findById(@PathVariable String id) { // criar um metodo que carrega uma lista
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(new UserDTO(obj));// instancia o ResponseEntity com o codigo de resposta
 	}
-	
-	//public ResponseEntity<void> response entity vai retornar vazio por isso void
-	//@RequestMapping(method=RequestMethod.POST) //tb aceita a anotação abaixo
-	//@PostMapping
-	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto) { //para que este endpoint aceite o objDTO tem que usar RequestBody
+
+	// public ResponseEntity<void> response entity vai retornar vazio por isso void
+	// @RequestMapping(method=RequestMethod.POST) //tb aceita a anotação abaixo
+	// @PostMapping
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto) { // para que este endpoint aceite o objDTO tem que
+																		// usar RequestBody
 		User obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//esta linha pega o novo objeto que foi inserido
-		return ResponseEntity.created(uri).build();//create retorno o codigo de resposta http 201 , quando é criado um novo recurso
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();// esta
+																														// linha
+																														// pega
+																														// o
+																														// novo
+																														// objeto
+																														// que
+																														// foi
+																														// inserido
+		return ResponseEntity.created(uri).build();// create retorno o codigo de resposta http 201 , quando é criado um
+													// novo recurso
 	}
-	
-	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable String id) { //para que este endpoint aceite o objDTO tem que usar RequestBody
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) { // para que este endpoint aceite o objDTO tem que usar
+																	// RequestBody
 		service.delete(id);
-		return ResponseEntity.noContent().build();//create retorno o codigo de resposta http 201 , quando é criado um novo recurso
+		return ResponseEntity.noContent().build();// create retorno o codigo de resposta http 201 , quando é criado um
+													// novo recurso
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody UserDTO objDto,  @PathVariable String id) { // para que este
+		User obj = service.fromDTO(objDto);
+		obj.setId(id);//para garantir que o objeot vai ter o id da requisição
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
 	}
 }

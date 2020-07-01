@@ -45,6 +45,18 @@ public class UserService {// classe responsavel para trabalhar com ususario
 		repo.deleteById(id);
 	}
 
+	public User update(User obj) {
+		// Optional<User> newObj = repo.findById(obj.getId());
+		User newObj = repo.findById(obj.getId()).get();
+		UpdateData(newObj, obj);
+		return repo.save(newObj);
+	}
+	
+	private void UpdateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
+
 	public User fromDTO(UserDTO objDTO) {
 		return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
 
