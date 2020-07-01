@@ -1,14 +1,17 @@
 package com.educandoweb.workshopmongo.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.educandoweb.workshopmongo.domain.User;
 import com.educandoweb.workshopmongo.dto.UserDTO;
@@ -42,5 +45,16 @@ public class UserResource {
 	public ResponseEntity<UserDTO> findById(@PathVariable String id) { // criar um metodo que carrega uma lista
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(new UserDTO(obj));// instancia o ResponseEntity com o codigo de resposta
+	}
+	
+	//public ResponseEntity<void> response entity vai retornar vazio por isso void
+	//@RequestMapping(method=RequestMethod.POST) //tb aceita a anotação abaixo
+	//@PostMapping
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto) { //para que este endpoint aceite o objDTO tem que usar RequestBody
+		User obj = service.fromDTO(objDto);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();//esta linha pega o novo objeto que foi inserido
+		return ResponseEntity.created(uri).build();//create retorno o codigo de resposta http 201 , quando é criado um novo recurso
 	}
 }
