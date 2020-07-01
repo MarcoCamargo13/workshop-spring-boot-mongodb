@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.educandoweb.workshopmongo.domain.Post;
 import com.educandoweb.workshopmongo.domain.User;
 import com.educandoweb.workshopmongo.dto.UserDTO;
 import com.educandoweb.workshopmongo.services.UserService;
@@ -56,14 +57,16 @@ public class UserResource {
 		User obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();// esta
-																														// linha
+																														// //
 																														// pega
 																														// o
 																														// novo
 																														// objeto
 																														// que
-																														// foi
+																														// doi
 																														// inserido
+																														// //
+																														// linha
 		return ResponseEntity.created(uri).build();// create retorno o codigo de resposta http 201 , quando é criado um
 													// novo recurso
 	}
@@ -82,5 +85,12 @@ public class UserResource {
 		obj.setId(id);//para garantir que o objeot vai ter o id da requisição
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
+		
 	}
+		@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+		public ResponseEntity<List<Post>> findPost(@PathVariable String id) { // criar um metodo que carrega uma lista
+			User obj = service.findById(id);
+			return ResponseEntity.ok().body(obj.getPosts());// instancia o ResponseEntity com o codigo de resposta
+		}
+
 }
