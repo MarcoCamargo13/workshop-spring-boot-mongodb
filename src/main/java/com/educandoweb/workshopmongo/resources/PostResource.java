@@ -32,7 +32,7 @@ public class PostResource {
 	@RequestMapping(value = "/titlesearch", method = RequestMethod.GET) //busca com caminha titlesearch
 	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value="text", defaultValue="") String text) { //define os parametros para a busca do metodo findByTitle
 		text = URL.decodeParam(text); //codifica o texto
-		List<Post> list = service.findByTitle(text); //procura o texto ignorando minuscula e maiscula IgnoreCase
+		List<Post> list = service.findTitle(text); //procura o texto ignorando minuscula e maiscula IgnoreCase
 		return ResponseEntity.ok().body(list);// instancia o ResponseEntity com o codigo de resposta
 	}
 
