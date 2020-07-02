@@ -26,5 +26,9 @@ public class PostService {// classe responsavel para trabalhar com ususario
 		Optional<Post> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
+	
+	public List<Post> findByTitle (String text){
+		return repo.findByTitleContainingIgnoreCase(text);//metodo no javadoc pronto https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
+	}
 
 }

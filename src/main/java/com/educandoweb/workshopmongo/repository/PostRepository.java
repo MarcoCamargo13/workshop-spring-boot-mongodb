@@ -1,5 +1,7 @@
 package com.educandoweb.workshopmongo.repository;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +13,8 @@ public interface PostRepository extends MongoRepository<Post, String> { // exten
 	// MongoRepository<T, ID> T --> tipo da classe de dominio aqui é o User
 	// ID --> tipo do id String
 	// com isso vai herdar varios metodos ou fazer varos operações
+	
+	List<Post> findByTitleContainingIgnoreCase(String text);
+	
 
 }
