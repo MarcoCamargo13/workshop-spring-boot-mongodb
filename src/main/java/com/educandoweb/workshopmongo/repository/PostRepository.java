@@ -1,5 +1,6 @@
 package com.educandoweb.workshopmongo.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -23,6 +24,13 @@ public interface PostRepository extends MongoRepository<Post, String> { // exten
 	 //$options: '<options>' no dicumento indica i para ignorar maiscula e minuscula
 	@Query("{ 'title' : { $regex: ?0, $options: 'i' } }")
 	List<Post> findTitle(String text);
+	
+	
+	//documento de referencia : https://docs.mongodb.com/manual/reference/operator/query/regex/
+	//{field: {$gte: value} } //campo field Date e gte : párametro mindate ?1
+	// $or: [ { <expression1> }, { <expression2> }, ... , { <expressionN> } ] vem da documentação vai procurar nos campos title, body e comments é uma lista comments.text indica q ira procura dentro do text
+	@Query("{ $and: [ {date: {$gte: ?1} } , { date: { $lte: ?2} } , {  $or: [ { 'title' : { $regex: ?0, $options: 'i' } }, { 'body' : { $regex: ?0, $options: 'i' }  },  { 'comments.text' : { $regex: ?0, $options: 'i' } } ] ] }")
+	List<Post> fullSearch(String text, Date minDate, Date maxDate);
 	
 
 }

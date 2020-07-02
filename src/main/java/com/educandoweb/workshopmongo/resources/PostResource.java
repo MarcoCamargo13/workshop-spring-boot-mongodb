@@ -1,5 +1,6 @@
 package com.educandoweb.workshopmongo.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,24 @@ public class PostResource {
 		Post obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);// instancia o ResponseEntity com o codigo de resposta
 	}
-	
+
 	@RequestMapping(value = "/titlesearch", method = RequestMethod.GET) //busca com caminha titlesearch
 	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value="text", defaultValue="") String text) { //define os parametros para a busca do metodo findByTitle
 		text = URL.decodeParam(text); //codifica o texto
 		List<Post> list = service.findTitle(text); //procura o texto ignorando minuscula e maiscula IgnoreCase
+		return ResponseEntity.ok().body(list);// instancia o ResponseEntity com o codigo de resposta
+	}
+
+	@RequestMapping(value = "/fullsearch", method = RequestMethod.GET) //busca com caminha titlesearch
+	public ResponseEntity<List<Post>> fullsearch(
+			@RequestParam(value="text", defaultValue="") String text, 
+	        @RequestParam(value="minDate", defaultValue="") String minDate,
+            @RequestParam(value="maxDate", defaultValue="") String maxDate) 
+	{ //define os parametros para a busca do metodo findByTitle
+		text = URL.decodeParam(text); //codifica o texto
+		Date min = URL.convertDate(minDate, new Date(0L)); //conversão de data minima
+		Date max = URL.convertDate(maxDate, new Date()); //conversão de data minima
+		List<Post> list = service.fullSearch(text, min, max); //procura o texto ignorando minuscula e maiscula IgnoreCase
 		return ResponseEntity.ok().body(list);// instancia o ResponseEntity com o codigo de resposta
 	}
 

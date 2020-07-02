@@ -1,5 +1,6 @@
 package com.educandoweb.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,11 @@ public class PostService {// classe responsavel para trabalhar com ususario
 	
 	public List<Post> findTitle (String text){
 		return repo.findByTitleContainingIgnoreCase(text);//metodo no javadoc pronto https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
+	}
+	
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate){
+		maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
+		return repo.fullSearch(text, minDate, maxDate);
 	}
 
 }
